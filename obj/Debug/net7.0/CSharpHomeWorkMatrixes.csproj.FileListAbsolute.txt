@@ -1,0 +1,15 @@
+/Users/evgenijshelukhin/Repos/CSharpHomeWorkMatrixes/bin/Debug/net7.0/CSharpHomeWorkMatrixes
+/Users/evgenijshelukhin/Repos/CSharpHomeWorkMatrixes/bin/Debug/net7.0/CSharpHomeWorkMatrixes.deps.json
+/Users/evgenijshelukhin/Repos/CSharpHomeWorkMatrixes/bin/Debug/net7.0/CSharpHomeWorkMatrixes.runtimeconfig.json
+/Users/evgenijshelukhin/Repos/CSharpHomeWorkMatrixes/bin/Debug/net7.0/CSharpHomeWorkMatrixes.dll
+/Users/evgenijshelukhin/Repos/CSharpHomeWorkMatrixes/bin/Debug/net7.0/CSharpHomeWorkMatrixes.pdb
+/Users/evgenijshelukhin/Repos/CSharpHomeWorkMatrixes/obj/Debug/net7.0/CSharpHomeWorkMatrixes.csproj.AssemblyReference.cache
+/Users/evgenijshelukhin/Repos/CSharpHomeWorkMatrixes/obj/Debug/net7.0/CSharpHomeWorkMatrixes.GeneratedMSBuildEditorConfig.editorconfig
+/Users/evgenijshelukhin/Repos/CSharpHomeWorkMatrixes/obj/Debug/net7.0/CSharpHomeWorkMatrixes.AssemblyInfoInputs.cache
+/Users/evgenijshelukhin/Repos/CSharpHomeWorkMatrixes/obj/Debug/net7.0/CSharpHomeWorkMatrixes.AssemblyInfo.cs
+/Users/evgenijshelukhin/Repos/CSharpHomeWorkMatrixes/obj/Debug/net7.0/CSharpHomeWorkMatrixes.csproj.CoreCompileInputs.cache
+/Users/evgenijshelukhin/Repos/CSharpHomeWorkMatrixes/obj/Debug/net7.0/CSharpHomeWorkMatrixes.dll
+/Users/evgenijshelukhin/Repos/CSharpHomeWorkMatrixes/obj/Debug/net7.0/refint/CSharpHomeWorkMatrixes.dll
+/Users/evgenijshelukhin/Repos/CSharpHomeWorkMatrixes/obj/Debug/net7.0/CSharpHomeWorkMatrixes.pdb
+/Users/evgenijshelukhin/Repos/CSharpHomeWorkMatrixes/obj/Debug/net7.0/CSharpHomeWorkMatrixes.genruntimeconfig.cache
+/Users/evgenijshelukhin/Repos/CSharpHomeWorkMatrixes/obj/Debug/net7.0/ref/CSharpHomeWorkMatrixes.dll
