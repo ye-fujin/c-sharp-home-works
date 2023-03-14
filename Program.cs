@@ -1,85 +1,94 @@
-﻿// Задание 1. Случайная матрица
+﻿// Задание 1. Метод разделения строки на слова
+// Что нужно сделать
+// Пользователь вводит в консольном приложении длинное предложение. Каждое слово в этом предложении отделено одним пробелом. Необходимо создать метод, который в качестве входного параметра принимает строковую переменную, а в качестве возвращаемого значения — массив слов. После вызова данного метода программа вызывает второй метод, который выводит каждое слово в отдельной строке.
 
-// Console.WriteLine("Введите количество строк матрицы:");
-// int rows = Convert.ToInt32(Console.ReadLine());
+// Советы и рекомендации
+// Для реализации данной программы можно написать алгоритм разделения на слова самостоятельно, используя цикл. Также можете использовать метод string.Split(‘ ’); Прочитайте об этом методе подробнее на странице документации Microsoft.
+// Для названия методов используйте CamelCase, когда каждое следующее слово начинается с заглавной буквы. Например, метод с именем GetPositiveRandomInt возвращает положительное целое случайное число. По такому же принципу следует называть и свои методы. 
 
-// Console.WriteLine("Введите количество столбцов матрицы:");
-// int columns = Convert.ToInt32(Console.ReadLine());
+// Что оценивается
+// В программе, помимо основного метода main, присутствует два других метода, которые вызываются в теле метода main. 
+// Названием методов соответствуют тому, что они делают (разделяют или выводят данные).
 
-// var random = new Random();
-
-// Console.WriteLine("Матрица:");
-
-// int sum = 0;
-
-// for (int i = 0; i < rows; i++)
+// namespace CSharpHomeWorksNamespace
 // {
-//     string line = "";
+//     class CSharpHomeWorks
+//     {
+//         static void Main()
+//         {
+//             Console.WriteLine("Введите предложение, каждое слово которого отделено пробелом:");
+//             PrintArray(SplitInput(Console.ReadLine() ?? ""));
+//         }
 
-//     for (int j = 0; j < columns; j++)
-//     {   
-//         int value = random.Next(0, 9);
-//         line += $"{value} ";
-//         sum += value;
+//         private static string[] SplitInput(string input)
+//         {
+//             if (Convert.ToBoolean(input.Length))
+//             {
+//                 return input.Split(" ");
+//             }
+
+//             return new string[1];
+//         }
+
+//         private static void PrintArray(string[] input)
+//         {
+//             if (Convert.ToBoolean(input.Length)) {
+//                 foreach (string item in input)
+//                 {
+//                     Console.WriteLine(item);
+//                 }
+//             }
+//         }
 //     }
-
-//     Console.WriteLine(line);
 // }
 
-// Console.WriteLine($"Сумма всех элементов:\n{sum}");
+// Задание 2. Перестановка слов в предложении
+// Что нужно сделать
+// Пользователь вводит в программе длинное предложение. Каждое слово раздельно одним пробелом. После ввода пользователь нажимает клавишу Enter. Необходимо создать два метода:
 
-// Задание 2. Сложение матриц
+// первый метод разделяет слова в предложении;
+// второй метод меняет эти слова местами (в обратной последовательности).
+// При этом важно учесть, что один метод вызывается внутри другого метода, то есть в методе main вызывается метод cо следующей сигнатурой — ReversWords (string inputPhrase). Внутри этого метода вызывается метод по разделению входной фразы на слова.
 
-Console.WriteLine("Введите количество строк матрицы:");
-int rows = Convert.ToInt32(Console.ReadLine());
+// Советы и рекомендации
+// Для сложения строк можно использовать конкатенацию строк. Выражение вида ResultString += NewString + “ ” добавит к текущей строке, которая представлена переменной ResultString, новую строку из переменной NewString и также добавит пробел к концу строки. 
+// Для реализации алгоритма разделения строки на слова можно воспользоваться рекомендациями из задания 1.
 
-Console.WriteLine("Введите количество столбцов матрицы:");
-int columns = Convert.ToInt32(Console.ReadLine());
+// Что оценивается
+// Вызов метода по разделению на слова происходит внутри метода, который отвечает непосредственно за инвертирование слов в предложении.
 
-var random = new Random();
-
-int[,] matrix1 = new int[rows, columns];
-int[,] matrix2 = new int[rows, columns];
-
-static void CreateMatrix(
-    string title,
-    int rows,
-    int columns,
-    Random random,
-    int[,] matrix
-)
+namespace CSharpHomeWorksNamespace
 {
-    Console.WriteLine(title);
-
-    for (int i = 0; i < rows; i++)
+    class CSharpHomeWorks
     {
-        string line = "";
-
-        for (int j = 0; j < columns; j++)
-        {   
-            int value = random.Next(0, 9);
-            line += $"{value} ";
-            matrix[i, j] = value;
+        static void Main()
+        {
+            Console.WriteLine("Введите предложение, каждое слово которого отделено пробелом:");
+            ReverseWords(Console.ReadLine() ?? "");
         }
 
-        Console.WriteLine(line);
+        private static string[] SplitInput(string input)
+        {
+            if (Convert.ToBoolean(input.Length))
+            {
+                return input.Split(" ");
+            }
+
+            return new string[1];
+        }
+
+        private static void ReverseWords(string input)
+        {
+            if (Convert.ToBoolean(input.Length)) {
+                string result = "";
+
+                foreach (string item in SplitInput(input).Reverse())
+                {
+                    result += $"{item} ";
+                }
+
+                Console.WriteLine(result);
+            }
+        }
     }
-}
-
-CreateMatrix("Матрица 1:", rows, columns, random, matrix1);
-CreateMatrix("Матрица 2:", rows, columns, random, matrix2);
-
-Console.WriteLine("Сумма матриц:");
-
-for (int i = 0; i < rows; i++)
-{
-    string line = "";
-
-    for (int j = 0; j < columns; j++)
-    {   
-        int value = matrix1[i, j] + matrix2[i, j];
-        line += $"{value} ";
-    }
-
-    Console.WriteLine(line);
 }

@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/evgenijshelukhin/Repos/CSharpHomeWorkMatrixes/CSharpHomeWorkMatrixes.csproj",
-      "projectName": "CSharpHomeWorkMatrixes",
-      "projectPath": "/Users/evgenijshelukhin/Repos/CSharpHomeWorkMatrixes/CSharpHomeWorkMatrixes.csproj",
+      "projectUniqueName": "/Users/evgenijshelukhin/Repos/CSharpHomeWorks/CSharpHomeWorks.csproj",
+      "projectName": "CSharpHomeWorks",
+      "projectPath": "/Users/evgenijshelukhin/Repos/CSharpHomeWorks/CSharpHomeWorks.csproj",
       "packagesPath": "/Users/evgenijshelukhin/.nuget/packages/",
-      "outputPath": "/Users/evgenijshelukhin/Repos/CSharpHomeWorkMatrixes/obj/",
+      "outputPath": "/Users/evgenijshelukhin/Repos/CSharpHomeWorks/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/evgenijshelukhin/.nuget/NuGet/NuGet.Config"

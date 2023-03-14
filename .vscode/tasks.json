@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/CSharpHomeWorkMatrixes.csproj",
+                "${workspaceFolder}/CSharpHomeWorks.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/CSharpHomeWorkMatrixes.csproj",
+                "${workspaceFolder}/CSharpHomeWorks.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/CSharpHomeWorkMatrixes.csproj"
+                "${workspaceFolder}/CSharpHomeWorks.csproj"
             ],
             "problemMatcher": "$msCompile"
         }
