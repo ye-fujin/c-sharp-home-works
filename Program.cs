@@ -1,94 +1,153 @@
-﻿// Задание 1. Метод разделения строки на слова
-// Что нужно сделать
-// Пользователь вводит в консольном приложении длинное предложение. Каждое слово в этом предложении отделено одним пробелом. Необходимо создать метод, который в качестве входного параметра принимает строковую переменную, а в качестве возвращаемого значения — массив слов. После вызова данного метода программа вызывает второй метод, который выводит каждое слово в отдельной строке.
+﻿using System.Globalization;
+using System.Text.RegularExpressions;
 
-// Советы и рекомендации
-// Для реализации данной программы можно написать алгоритм разделения на слова самостоятельно, используя цикл. Также можете использовать метод string.Split(‘ ’); Прочитайте об этом методе подробнее на странице документации Microsoft.
-// Для названия методов используйте CamelCase, когда каждое следующее слово начинается с заглавной буквы. Например, метод с именем GetPositiveRandomInt возвращает положительное целое случайное число. По такому же принципу следует называть и свои методы. 
+// Создайте справочник «Сотрудники».
 
-// Что оценивается
-// В программе, помимо основного метода main, присутствует два других метода, которые вызываются в теле метода main. 
-// Названием методов соответствуют тому, что они делают (разделяют или выводят данные).
+// Разработайте для предполагаемой компании программу, которая будет добавлять записи новых сотрудников в файл. Файл должен содержать следующие данные:
 
-// namespace CSharpHomeWorksNamespace
-// {
-//     class CSharpHomeWorks
-//     {
-//         static void Main()
-//         {
-//             Console.WriteLine("Введите предложение, каждое слово которого отделено пробелом:");
-//             PrintArray(SplitInput(Console.ReadLine() ?? ""));
-//         }
+// ID
+// Дату и время добавления записи
+// Ф. И. О.
+// Возраст
+// Рост
+// Дату рождения
+// Место рождения
+// Для этого необходим ввод данных с клавиатуры. После ввода данных:
 
-//         private static string[] SplitInput(string input)
-//         {
-//             if (Convert.ToBoolean(input.Length))
-//             {
-//                 return input.Split(" ");
-//             }
+// если файла не существует, его необходимо создать; 
+// если файл существует, то необходимо записать данные сотрудника в конец файла. 
+// При запуске программы должен быть выбор:
 
-//             return new string[1];
-//         }
+// введём 1 — вывести данные на экран;
+// введём 2 — заполнить данные и добавить новую запись в конец файла.
 
-//         private static void PrintArray(string[] input)
-//         {
-//             if (Convert.ToBoolean(input.Length)) {
-//                 foreach (string item in input)
-//                 {
-//                     Console.WriteLine(item);
-//                 }
-//             }
-//         }
-//     }
-// }
 
-// Задание 2. Перестановка слов в предложении
-// Что нужно сделать
-// Пользователь вводит в программе длинное предложение. Каждое слово раздельно одним пробелом. После ввода пользователь нажимает клавишу Enter. Необходимо создать два метода:
+// Файл должен иметь следующую структуру:
 
-// первый метод разделяет слова в предложении;
-// второй метод меняет эти слова местами (в обратной последовательности).
-// При этом важно учесть, что один метод вызывается внутри другого метода, то есть в методе main вызывается метод cо следующей сигнатурой — ReversWords (string inputPhrase). Внутри этого метода вызывается метод по разделению входной фразы на слова.
+// 1#20.12.2021 00:12#Иванов Иван Иванович#25#176#05.05.1992#город Москва
+// 2#15.12.2021 03:12#Алексеев Алексей Иванович#24#176#05.11.1980#город Томск
+// …
 
-// Советы и рекомендации
-// Для сложения строк можно использовать конкатенацию строк. Выражение вида ResultString += NewString + “ ” добавит к текущей строке, которая представлена переменной ResultString, новую строку из переменной NewString и также добавит пробел к концу строки. 
-// Для реализации алгоритма разделения строки на слова можно воспользоваться рекомендациями из задания 1.
-
-// Что оценивается
-// Вызов метода по разделению на слова происходит внутри метода, который отвечает непосредственно за инвертирование слов в предложении.
 
 namespace CSharpHomeWorksNamespace
 {
     class CSharpHomeWorks
     {
+        static string filePath = @"records.csv";
+
         static void Main()
         {
-            Console.WriteLine("Введите предложение, каждое слово которого отделено пробелом:");
-            ReverseWords(Console.ReadLine() ?? "");
-        }
+            CultureInfo originalCulture = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("ru-RU");
 
-        private static string[] SplitInput(string input)
-        {
-            if (Convert.ToBoolean(input.Length))
+            byte selected = 255;
+            string menu = "Введите:\n0 - выход\n1 - вывести данные на экран\n2 - добавить новую запись";
+
+            do
             {
-                return input.Split(" ");
-            }
-
-            return new string[1];
-        }
-
-        private static void ReverseWords(string input)
-        {
-            if (Convert.ToBoolean(input.Length)) {
-                string result = "";
-
-                foreach (string item in SplitInput(input).Reverse())
+                Console.WriteLine(menu);
+                
+                try
                 {
-                    result += $"{item} ";
+                    selected = Convert.ToByte(Console.ReadLine());
+
+                    if (selected == 1)
+                    {
+                        GetRecords();
+                    }
+
+                    if (selected == 2)
+                    {
+                        AddRecord();
+                    }
+                } catch (Exception e)
+                {
+                    Console.WriteLine($"Exception: {e}");
                 }
 
-                Console.WriteLine(result);
+            } while (selected != 0);
+        }
+
+        private static void GetRecords()
+        {
+            CheckFileExists();
+
+            using (StreamReader sr = new StreamReader(filePath))
+            {
+                while (!sr.EndOfStream)
+                {
+                    string[] inputs = FormatInputs(sr);
+                    Console.WriteLine(string.Join(" ", inputs));
+                }
             }
+        }
+
+        private static string[] FormatInputs(StreamReader sr)
+        {
+            string[] inputs = (sr.ReadLine() ?? "").Split("#");
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                if (inputs[i] == "")
+                {
+                    inputs[i] = "Н/д";
+                }
+            }
+
+            return inputs;
+        }
+
+        private static void CheckFileExists()
+        {
+            if (!File.Exists(filePath))
+            {
+                using (FileStream fs = File.Create(filePath))
+                {
+                    Console.WriteLine($"Создан файл {filePath}\n");
+                }
+            }
+        }
+
+        private static void AddRecord()
+        {
+            CheckFileExists();
+
+            using (StreamWriter sr = File.AppendText(filePath))
+            {
+                string[] records = File.ReadAllLines(filePath);
+                string newRecord = "";
+
+                Console.WriteLine(("Ф. И. О.:"));
+                newRecord = GetInputData(newRecord);
+
+                Console.WriteLine(("Возраст:"));
+                newRecord = GetInputData(newRecord);
+
+                Console.WriteLine(("Рост:"));
+                newRecord = GetInputData(newRecord);
+
+                Console.WriteLine(("Дата рождения:"));
+                string dateOfBirth = Console.ReadLine() ?? "";
+                newRecord += new Regex(@"^\d{2}\.\d{2}\.\d{4}$").IsMatch(dateOfBirth) ? $"{dateOfBirth}#" : "#";
+
+                Console.WriteLine(("Место рождения:"));
+                newRecord = GetInputData(newRecord, true);
+
+                DateTime now = DateTime.Now;
+                newRecord = $"{records.Length + 1}#{now.ToShortDateString()} {now.ToShortTimeString()}#" + newRecord;
+                sr.WriteLine(newRecord);
+
+                Console.WriteLine(("Новая запись успешно добавлена"));
+            }
+        }
+
+        private static string GetInputData(string newRecord, bool lastLine = false)
+        {
+            newRecord += $"{Console.ReadLine()}";
+            if (!lastLine)
+            {
+                newRecord += "#";
+            }
+            return newRecord;
         }
     }
 }
