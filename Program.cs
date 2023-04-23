@@ -1,47 +1,103 @@
 ﻿using System.Globalization;
-using System.Text.RegularExpressions;
 
-// Создайте справочник «Сотрудники».
-
-// Разработайте для предполагаемой компании программу, которая будет добавлять записи новых сотрудников в файл. Файл должен содержать следующие данные:
+// Улучшите программу, которую разработали в модуле 6. Создайте структуру Worker со следующими свойствами:
 
 // ID
-// Дату и время добавления записи
-// Ф. И. О.
+// Дата и время добавления записи
+// Ф.И.О.
 // Возраст
 // Рост
-// Дату рождения
+// Дата рождения
 // Место рождения
-// Для этого необходим ввод данных с клавиатуры. После ввода данных:
-
-// если файла не существует, его необходимо создать; 
-// если файл существует, то необходимо записать данные сотрудника в конец файла. 
-// При запуске программы должен быть выбор:
-
-// введём 1 — вывести данные на экран;
-// введём 2 — заполнить данные и добавить новую запись в конец файла.
 
 
-// Файл должен иметь следующую структуру:
+// Структура будет выглядеть примерно так:
+
+//     struct Worker
+//     {
+//         public int Id { get; set; }
+//         public string FIO { get; set; }
+//     … другие свойства
+//     }
+
+
+// Создайте класс Repository, который будет отвечать за работу с экземплярами Worker.
+
+// В репозитории должны быть реализованы следующие функции:
+
+// Просмотр всех записей.
+// Просмотр одной записи. Функция должна на вход принимать параметр ID записи, которую необходимо вывести на экран. 
+// Создание записи.
+// Удаление записи.
+// Загрузка записей в выбранном диапазоне дат.
+
+
+// Структура класса Repository примерно такая:
+
+// class Repository
+//     {
+//         public Worker[] GetAllWorkers()
+//         {
+//             // здесь происходит чтение из файла
+//             // и возврат массива считанных экземпляров
+//         }
+
+//         public Worker GetWorkerById(int id)
+//         {
+//             // происходит чтение из файла, возвращается Worker
+//             // с запрашиваемым ID
+//         }
+
+//         public void DeleteWorker(int id)
+//         {
+//             // считывается файл, находится нужный Worker
+//             // происходит запись в файл всех Worker,
+//             // кроме удаляемого
+//         }
+
+//         public void AddWorker(Worker worker)
+//         {
+//             // присваиваем worker уникальный ID,
+//             // дописываем нового worker в файл
+//         }
+
+//         public Worker[] GetWorkersBetweenTwoDates(DateTime dateFrom, DateTime dateTo)
+//         {
+//             // здесь происходит чтение из файла
+//             // фильтрация нужных записей
+//             // и возврат массива считанных экземпляров
+//         }
+//     }
+
+
+// Имя файла должно храниться в приватном поле Repository. Файл, который использует репозиторий, должен выглядеть примерно так:
 
 // 1#20.12.2021 00:12#Иванов Иван Иванович#25#176#05.05.1992#город Москва
 // 2#15.12.2021 03:12#Алексеев Алексей Иванович#24#176#05.11.1980#город Томск
 // …
 
 
+// Используя структуру Worker и класс Repository, в основном методе Main реализуйте программу для работы с записями. Также предоставьте пользователю возможность сортировать данные по разным полям.
+
 namespace CSharpHomeWorksNamespace
 {
+
     class CSharpHomeWorks
     {
-        static string filePath = @"records.csv";
-
         static void Main()
         {
             CultureInfo originalCulture = Thread.CurrentThread.CurrentCulture;
             Thread.CurrentThread.CurrentCulture = new CultureInfo("ru-RU");
+            Repository repository = new Repository(@"records.csv");
 
             byte selected = 255;
-            string menu = "Введите:\n0 - выход\n1 - вывести данные на экран\n2 - добавить новую запись";
+            string menu = "Введите:\n" +
+                "0 - Выход\n" +
+                "1 - Просмотр всех записей\n" +
+                "2 - Просмотр одной записи\n" +
+                "3 - Создание записи\n" +
+                "4 - Удаление записи\n" +
+                "5 - Просмотр записей в выбранном диапазоне дат рождения";
 
             do
             {
@@ -50,15 +106,29 @@ namespace CSharpHomeWorksNamespace
                 try
                 {
                     selected = Convert.ToByte(Console.ReadLine());
-
-                    if (selected == 1)
+                    List<Worker> workers;
+                    switch (selected)
                     {
-                        GetRecords();
-                    }
-
-                    if (selected == 2)
-                    {
-                        AddRecord();
+                        case 1:
+                            workers = repository.GetAllWorkers();
+                            repository.PrintWorkers(workers);
+                            break;
+                        case 2:
+                            workers = repository.GetWorker();
+                            repository.PrintWorkers(workers);
+                            break;
+                        case 3:
+                            repository.AddWorker();
+                            break;
+                        case 4:
+                            repository.DeleteWorker();
+                            break;
+                        case 5:
+                            workers = repository.GetWorkersByDateRange();
+                            repository.PrintWorkers(workers);
+                            break;
+                        default:
+                            break;
                     }
                 } catch (Exception e)
                 {
@@ -66,88 +136,6 @@ namespace CSharpHomeWorksNamespace
                 }
 
             } while (selected != 0);
-        }
-
-        private static void GetRecords()
-        {
-            CheckFileExists();
-
-            using (StreamReader sr = new StreamReader(filePath))
-            {
-                while (!sr.EndOfStream)
-                {
-                    string[] inputs = FormatInputs(sr);
-                    Console.WriteLine(string.Join(" ", inputs));
-                }
-            }
-        }
-
-        private static string[] FormatInputs(StreamReader sr)
-        {
-            string[] inputs = (sr.ReadLine() ?? "").Split("#");
-            for (int i = 0; i < inputs.Length; i++)
-            {
-                if (inputs[i] == "")
-                {
-                    inputs[i] = "Н/д";
-                }
-            }
-
-            return inputs;
-        }
-
-        private static void CheckFileExists()
-        {
-            if (!File.Exists(filePath))
-            {
-                using (FileStream fs = File.Create(filePath))
-                {
-                    Console.WriteLine($"Создан файл {filePath}\n");
-                }
-            }
-        }
-
-        private static void AddRecord()
-        {
-            CheckFileExists();
-
-            using (StreamWriter sr = File.AppendText(filePath))
-            {
-                string[] records = File.ReadAllLines(filePath);
-                string newRecord = "";
-
-                Console.WriteLine(("Ф. И. О.:"));
-                newRecord = GetInputData(newRecord);
-
-                Console.WriteLine(("Возраст:"));
-                newRecord = GetInputData(newRecord);
-
-                Console.WriteLine(("Рост:"));
-                newRecord = GetInputData(newRecord);
-
-                Console.WriteLine(("Дата рождения:"));
-                string dateOfBirth = Console.ReadLine() ?? "";
-                newRecord += new Regex(@"^\d{2}\.\d{2}\.\d{4}$").IsMatch(dateOfBirth) ? $"{dateOfBirth}#" : "#";
-
-                Console.WriteLine(("Место рождения:"));
-                newRecord = GetInputData(newRecord, true);
-
-                DateTime now = DateTime.Now;
-                newRecord = $"{records.Length + 1}#{now.ToShortDateString()} {now.ToShortTimeString()}#" + newRecord;
-                sr.WriteLine(newRecord);
-
-                Console.WriteLine(("Новая запись успешно добавлена"));
-            }
-        }
-
-        private static string GetInputData(string newRecord, bool lastLine = false)
-        {
-            newRecord += $"{Console.ReadLine()}";
-            if (!lastLine)
-            {
-                newRecord += "#";
-            }
-            return newRecord;
         }
     }
 }
